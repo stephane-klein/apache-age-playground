@@ -15,3 +15,13 @@ postgres=# \dx
  plpgsql | 1.0     | pg_catalog | PL/pgSQL procedural language
 ```
 
+```sh
+$ ./scripts/enter-in-pg.sh -f playground.sql
+Create some vertices, some Issues;
+                                             issues
+-------------------------------------------------------------------------------------------------
+ {"id": 844424930131969, "label": "Issue", "properties": {"iid": 1, "title": "Issue 1"}}::vertex
+ {"id": 844424930131970, "label": "Issue", "properties": {"iid": 2, "title": "Issue 2"}}::vertex
+ {"id": 844424930131971, "label": "Issue", "properties": {"iid": 3, "title": "Issue 3"}}::vertex
+(3 lignes)
+```
