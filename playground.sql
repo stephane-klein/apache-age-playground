@@ -58,6 +58,29 @@ FROM cypher('graph_a', $$
         (a)-[rel2:IS_BLOCKED_BY]->(c)
 $$) as (v agtype);
 
+\echo 'Create some Labels (vertices)';
+SELECT *
+FROM cypher('graph_a', $$
+    CREATE (
+        l1:Label
+        {
+            name: 'Bug'
+        }
+    )
+    CREATE (
+        l2:Label
+        {
+            name: 'Feature'
+        }
+    )
+    CREATE (
+        l3:Label
+        {
+            name: 'Spike'
+        }
+    )
+$$) as (v agtype);
+
 \o
 \echo 'Query 1: find issue 1 and display its title';
 SELECT *
@@ -72,3 +95,10 @@ FROM cypher('graph_a', $$
     MATCH (n:Issue {iid: 1})-[r]->()
     RETURN r
 $$) as (edges agtype);
+
+\echo 'Query 3: find all labels';
+SELECT *
+FROM cypher('graph_a', $$
+    MATCH (label:Label)
+    RETURN label.name
+$$) as (labels agtype);
