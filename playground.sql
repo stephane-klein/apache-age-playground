@@ -61,6 +61,15 @@ $$) as (v agtype);
 \echo 'Create some Labels (vertices)';
 SELECT *
 FROM cypher('graph_a', $$
+    MATCH
+        (a:Issue),
+        (b:Issue),
+        (c:Issue)
+    WHERE
+        a.iid = 1 AND
+        b.iid = 2 AND
+        c.iid = 3
+
     CREATE (
         l1:Label
         {
@@ -79,6 +88,19 @@ FROM cypher('graph_a', $$
             name: 'Spike'
         }
     )
+
+    CREATE
+        (a)-[rel3:LABELED_BY]->(l1)
+
+
+    CREATE
+        (b)-[rel4:LABELED_BY]->(l2)
+
+    CREATE
+        (c)-[rel5:LABELED_BY]->(l2)
+
+    CREATE
+        (c)-[rel6:LABELED_BY]->(l3)
 $$) as (v agtype);
 
 \o
