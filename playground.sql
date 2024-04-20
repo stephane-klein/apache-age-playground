@@ -46,19 +46,29 @@ SELECT *
 FROM cypher('graph_a', $$
     MATCH
         (a:Issue),
-        (b:Issue)
+        (b:Issue),
+        (c:Issue)
     WHERE
         a.iid = 1 AND
-        b.iid = 2
-    CREATE (a)-[rel1:IS_BLOCKED_BY]->(b)
-    RETURN rel1
+        b.iid = 2 AND
+        c.iid = 3
+    CREATE
+        (a)-[rel1:IS_BLOCKED_BY]->(b)
+    CREATE
+        (a)-[rel2:IS_BLOCKED_BY]->(c)
 $$) as (v agtype);
 
 \o
+\echo 'Query 1: find issue 1 and display its title';
 SELECT *
 FROM cypher('graph_a', $$
-    MATCH (issues:Issue)
-    RETURN issues
+    MATCH (issues:Issue {iid: 3})
+    RETURN issues.title
 $$) as (issues agtype);
 
-
+\echo 'Query 2: return all edges of issue 1';
+SELECT *
+FROM cypher('graph_a', $$
+    MATCH (n:Issue {iid: 1})-[r]->()
+    RETURN r
+$$) as (edges agtype);
