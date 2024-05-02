@@ -111,11 +111,11 @@ FROM cypher('graph_a', $$
     RETURN issues.title
 $$) as (issues agtype);
 
-\echo 'Query 2: return all edges of issue 1';
+\echo 'Query 2: return Labels (all edges) of issue 1';
 SELECT *
 FROM cypher('graph_a', $$
-    MATCH (n:Issue {iid: 1})-[r]->()
-    RETURN r
+    MATCH (n:Issue {iid: 1})-[r:LABELED_BY]->(label)
+    RETURN label.name
 $$) as (edges agtype);
 
 \echo 'Query 3: find all labels';
@@ -124,3 +124,20 @@ FROM cypher('graph_a', $$
     MATCH (label:Label)
     RETURN label.name
 $$) as (labels agtype);
+
+\echo 'Query 4: retrieve all "features" issues';
+SELECT *
+FROM cypher('graph_a', $$
+    MATCH (i1:Issue)-[r1:LABELED_BY]->(l1:Label {name: "Feature"})
+    RETURN i1.title
+$$) as (issues agtype);
+
+\echo 'Query 5: retrieve all "features" issue that are not "spikes"';
+SELECT *
+FROM cypher('graph_a', $$
+    MATCH (i1:Issue)-[r1:LABELED_BY]->(l1:Label {name: "Feature"})
+    WHERE NOT EXISTS(
+        (i1)-[:LABELED_BY]->(:Label {name: 'Spike'})
+    )
+    RETURN i1.title
+$$) as (issues agtype);
