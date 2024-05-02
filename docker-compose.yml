@@ -16,6 +16,7 @@ services:
       start_period: 30s
 
   age-viewer:
+    # https://github.com/apache/age-viewer/issues/118
     image: stephaneklein/age-viewer
     restart: unless-stopped
     ports:

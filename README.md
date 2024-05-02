@@ -25,3 +25,21 @@ Create some vertices, some Issues;
  {"id": 844424930131971, "label": "Issue", "properties": {"iid": 3, "title": "Issue 3"}}::vertex
 (3 lignes)
 ```
+
+## Age Viewer
+
+```sh
+$ firefox http://localhost:3000/
+```
+
+<img src="screenshots/connect-to-database.png" />
+
+```sql
+SELECT *
+FROM cypher('graph_a', $$
+    MATCH (i1:Issue)-[r]->(i2:Issue)
+    RETURN i1, r, i2
+$$) as (i1 agtype, r agtype, i2 agtype);
+```
+
+<img src="screenshots/execute-query.png" />
