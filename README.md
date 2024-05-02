@@ -18,12 +18,52 @@ postgres=# \dx
 ```sh
 $ ./scripts/enter-in-pg.sh -f playground.sql
 Create some vertices, some Issues;
-                                             issues
--------------------------------------------------------------------------------------------------
- {"id": 844424930131969, "label": "Issue", "properties": {"iid": 1, "title": "Issue 1"}}::vertex
- {"id": 844424930131970, "label": "Issue", "properties": {"iid": 2, "title": "Issue 2"}}::vertex
- {"id": 844424930131971, "label": "Issue", "properties": {"iid": 3, "title": "Issue 3"}}::vertex
+Create some Labels (vertices);
+Query 1: find issue 1 and display its title;
+  issues
+-----------
+ "Issue 3"
+(1 ligne)
+
+Query 2: return Labels (all edges) of issue 1;
+ edges
+-------
+ "Bug"
+(1 ligne)
+
+Query 3: find all labels;
+  labels
+-----------
+ "Bug"
+ "Feature"
+ "Spike"
 (3 lignes)
+
+Query 4: retrieve all "features" issues;
+  issues
+-----------
+ "Issue 2"
+ "Issue 3"
+(2 lignes)
+
+Query 5: retrieve all "features" issue that are not "spikes";
+  issues
+-----------
+ "Issue 2"
+(1 ligne)
+
+Query 6: retrieve all issue 1 children;
+  issues
+-----------
+ "Issue 2"
+(1 ligne)
+
+Query 7: retrieve all issue 3 children;
+  issues
+-----------
+ "Issue 1"
+ "Issue 2"
+(2 lignes)
 ```
 
 ## Age Viewer
