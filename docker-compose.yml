@@ -14,3 +14,11 @@ services:
       test: ["CMD", "sh", "-c", "pg_isready -U $$POSTGRES_USER -h $$(hostname -i)"]
       interval: 10s
       start_period: 30s
+
+  age-viewer:
+    image: stephaneklein/age-viewer
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
