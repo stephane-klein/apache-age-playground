@@ -55,7 +55,7 @@ FROM cypher('graph_a', $$
     CREATE
         (a)-[rel1:IS_BLOCKED_BY]->(b)
     CREATE
-        (a)-[rel2:IS_BLOCKED_BY]->(c)
+        (c)-[rel2:IS_BLOCKED_BY]->(a)
 $$) as (v agtype);
 
 \echo 'Create some Labels (vertices)';
@@ -140,4 +140,18 @@ FROM cypher('graph_a', $$
         (i1)-[:LABELED_BY]->(:Label {name: 'Spike'})
     )
     RETURN i1.title
+$$) as (issues agtype);
+
+\echo 'Query 6: retrieve all issue 1 children';
+SELECT *
+FROM cypher('graph_a', $$
+    MATCH (root:Issue {iid: 1})-[*]->(child:Issue)
+    RETURN DISTINCT child.title
+$$) as (issues agtype);
+
+\echo 'Query 7: retrieve all issue 3 children';
+SELECT *
+FROM cypher('graph_a', $$
+    MATCH (root:Issue {iid: 3})-[*]->(child:Issue)
+    RETURN DISTINCT child.title
 $$) as (issues agtype);
